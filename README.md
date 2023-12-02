@@ -1,5 +1,3 @@
-
-
 ### Related socials:
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/Andrea-Riboni) 
 
@@ -12,4 +10,4 @@
 ![Keras](https://img.shields.io/badge/Keras-%23D00000.svg?style=for-the-badge&logo=Keras&logoColor=white)
 
 ### Stats:
-![](https://github-readme-stats.vercel.app/api/top-langs/?username=AndreaRiboni&theme=darcula&hide_border=true&include_all_commits=false&count_private=false&layout=compact)
+![Andrea's GitHub stats](https://github-readme-stats.vercel.app/api/top-langs/?username=andreariboni&hide=javascript,css,scss,html,cython&theme=tokyonight)
