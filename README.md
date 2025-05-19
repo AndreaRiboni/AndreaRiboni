@@ -1,10 +1,6 @@
 ## 👋 Hi, I'm Andrea
 
-I'm a curious person aiming to be full-stack — from **UX to ML**, from **LLMs to CFD**
-
-Two random mottos:
-- Isn't machine learning pure magic?
-- Never stopped learning
+I'm aiming to be full-stack — from **UX to ML**, from **LLMs to CFD**. 
 
 ---
 
