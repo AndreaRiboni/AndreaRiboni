@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reebo.it for programmers</title>
+
+  <link rel="stylesheet" href="/static/css/terminal-styling.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/static/js/terminal-scripts.js"></script>
+
+</head>
+
+<body class="bg-black text-green-500 font-mono tracking-tight">
+  <span id="text-sizer" style="position: absolute; visibility: hidden; height: auto; width: auto; white-space: pre;" class="font-mono glow crt-text"></span>
+
+  <div class="crt-screen">
+    <div class="crt-content">
+      <div class="static-noise"></div>
+      <main id="terminal" class="terminal-content flex flex-col h-full p-4 overflow-y-auto overflow-x-hidden glow">
+        <div id="activeLine" class="active-line flex flex-wrap items-center">
+          <span id="prompt" class="select-none crt-text"></span>
+          <span class="select-none">&nbsp;</span>
+          <input id="cmd"
+                  type="text"
+                  autocomplete="off"
+                  autofocus
+                  spellcheck="false"
+                  class="bg-transparent outline-none caret-transparent glow crt-text" />
+                  <span class="crt-cursor"></span>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

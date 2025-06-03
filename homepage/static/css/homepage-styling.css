@@ -1,0 +1,443 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================================
+    Dynamic Gradient Backgrounds & Animations
+    ============================================ */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes floatUp {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+@keyframes slideInLeft {
+    0% { transform: translateX(-100px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    0% { transform: translateX(100px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+/* ============================================
+    SVG Signature Animation
+    ============================================ */
+@keyframes draw {
+    to {
+    stroke-dashoffset: 0;
+    }
+}
+
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes float {
+    0% {
+    transform: translateY(100vh) translateX(0px);
+    opacity: 0;
+    }
+    10% {
+    opacity: 1;
+    }
+    90% {
+    opacity: 1;
+    }
+    100% {
+    transform: translateY(-100px) translateX(100px);
+    opacity: 0;
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+    }
+    40% {
+    transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+    transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+body {
+    background: linear-gradient(135deg, #0a0a23 0%, #1a1a2e 50%, #16213e 100%);
+    color: white;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    filter: blur(10px) brightness(0.5);
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    padding: 0;
+}
+
+/* UPDATED .signature-svg STYLES (Fix [1]) */
+.signature-svg {
+    /* Default for small screens (HERE'S is text-6xl: font-size 3.75rem/60px) */
+    /* viewBox="30 25 1010 350", Aspect Ratio = 1010/350 = 2.8857 */
+    height: 3.75rem; /* Approx 60px */
+    width: calc(3.75rem * 2.8857); /* Approx 171px */
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+@media (min-width: 768px) { /* Tailwind's md breakpoint */
+    /* For larger screens (HERE'S is md:text-8xl: font-size 6rem/96px) */
+    .signature-svg {
+    height: 6rem; /* Approx 96px */
+    width: calc(6rem * 2.8857); /* Approx 274px */
+    }
+}
+
+.signature-path {
+    fill: none;
+    /* Note: inline styles on paths for 'stroke' and 'stroke-width' will override these */
+    stroke: #ffffff; 
+    stroke-width: 3; /* This is overridden by inline styles like 'stroke-width: 36;' */
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+}
+
+.signature-path.animate {
+    animation: draw 0.8s ease-in-out forwards;
+}
+
+.signature-path:nth-child(1) { animation-delay: 0.5s; }
+.signature-path:nth-child(2) { animation-delay: 0.7s; }
+.signature-path:nth-child(3) { animation-delay: 0.9s; }
+.signature-path:nth-child(4) { animation-delay: 1.1s; }
+.signature-path:nth-child(5) { animation-delay: 1.3s; }
+.signature-path:nth-child(6) { animation-delay: 1.5s; }
+.signature-path:nth-child(7) { animation-delay: 1.7s; }
+.signature-path:nth-child(8) { animation-delay: 1.9s; }
+/* Added rule for the 9th path (Fix for minor animation staggering) */
+.signature-path:nth-child(9) { animation-delay: 2.1s; }
+
+
+/* Main gradient background (black + vibrant deep purples/blues) */
+.gradient-bg {
+    background: linear-gradient(-45deg, #490017, #001a42);
+    background-size: 150% 150%;
+    animation: gradientShift 10s ease infinite;
+}
+
+section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.6s ease;
+    z-index: 2;
+}
+
+section:hover {
+    background: rgba(255, 255, 255, 0.05);
+    /* transform: translateY(-2px); */
+}
+
+.section-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #66ccff, #ff6b9d, #c471ed, #12d8fa);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 8s ease-in-out infinite;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+
+/* Hero section with multiple layers and padding for vertical centering */
+.hero-container {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.floating-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: -10;
+}
+
+.floating-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: float 20s infinite linear;
+}
+
+.scroll-indicator {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+    text-align: center;
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator::after {
+    content: '↓';
+    display: block;
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 10;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #66ccff, #ff6b9d);
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+/* Glass morphism effect */
+.glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(50px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation base style */
+.nav-glass {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-link {
+    position: relative;
+    padding-bottom: 0.25rem;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: #5a9aff;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Hover effects for other elements */
+.hover-lift {
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hover-lift:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+/* Button with gradient and hover gradient shift */
+.btn-gradient {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    position: relative;
+    overflow: hidden;
+    transition: background-position 0.3s ease, box-shadow 0.3s ease;
+    background-size: 200% 200%;
+    color: #ffffff;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+
+.btn-gradient:hover {
+    background-position: right center;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+}
+
+.btn-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn-gradient:hover::before {
+    left: 100%;
+}
+
+/* Card animations */
+.card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.card-3d:hover {
+    transform: rotateY(10deg) rotateX(10deg);
+}
+
+/* Text effects */
+.text-shimmer {
+    background: linear-gradient(45deg, #5a9aff, #d1c4ff, #ffffff, #5a9aff);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 8s ease infinite;
+}
+
+/* Project cards with depth */
+.project-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.project-card:hover {
+    transform: translateZ(50px) rotateX(5deg);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+    Dynamic Island Navigation
+    ============================================ */
+.dynamic-island {
+    width: 170px;
+    transition: width 0.45s ease, backdrop-filter 0.3s ease;
+    overflow: hidden;
+}
+
+.dynamic-island .links {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(20px);
+    transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+}
+
+/* Desktop hover expansion */
+@media (hover: hover) and (pointer: fine) {
+    .dynamic-island:hover {
+    width: 640px;
+    }
+    .dynamic-island:hover .links {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+    }
+}
+
+/* Mobile & tablet: show full nav permanently */
+@media (max-width: 768px) {
+    .dynamic-island {
+    width: calc(100% - 2rem);
+    padding-inline: 1rem;
+    justify-content: space-between;
+    }
+    .dynamic-island .links {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+    }
+}
+
+/* Responsive adjustments for blobs */
+@media (max-width: 768px) {
+    .blob-1, .blob-2, .blob-3 {
+    width: 150px;
+    height: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+    padding: 1rem;
+    }
+    
+    .section-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+    }
+}

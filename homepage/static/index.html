@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reebo Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="/static/css/homepage-styling.css">
+  <script src="/static/js/homepage-scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-tiktoken@1.0.12/"></script>
+  <script src="/static/js/token-scripts.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js"
+      }
+    }
+  </script>
+
+</head>
+
+<body class="gradient-bg min-h-screen">
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <script type="module" src="/static/js/background.js">
+  </script>
+
+  <nav id="dynamic-island" class="dynamic-island nav-glass fixed top-4 left-1/2 transform -translate-x-1/2 z-50 rounded-full px-4 py-3 flex items-center gap-6">
+    <div class="brand flex items-center gap-2 shrink-0">
+      <div class="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg"></div>
+      <span class="text-white font-semibold text-base">EXPLORE</span>
+    </div>
+    <div class="links flex items-center gap-6 whitespace-nowrap">
+      <a href="#home" class="nav-link text-white/80 hover:text-white transition-colors">Home</a>
+      <a href="#about" class="nav-link text-white/80 hover:text-white transition-colors">About</a>
+      <a href="#projects" class="nav-link text-white/80 hover:text-white transition-colors">Stuff</a>
+      <a href="#contact" class="nav-link text-white/80 hover:text-white transition-colors">Contact</a>
+    </div>
+  </nav>
+
+  <section id="home" class="hero-container flex items-center justify-center relative">
+
+    <div class="text-center z-10 px-6 max-w-4xl mx-auto">
+      <h1 class="text-6xl md:text-8xl font-black mb-6 text-shimmer leading-tight">
+        HERE'S
+      </h1>
+      
+      <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com" id="signature" class="signature-svg mx-auto" viewBox="30 25 1010 350">
+        <path id="A-first" class="signature-path" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 36; stroke-linecap: round; stroke-linejoin: round;" d="M 54.822 346.517 C 57.139 338.577 148.1 45.8 169 75 C 189.9 104.2 199.4 325.5 205 339 C 210.6 352.5 214 355 214 355">
+        </path>
+        <path id="A-first-dash" class="signature-path" d="M 61.926 245.802 C 61.926 245.802 103.526 249.602 129.926 249.802 C 156.326 250.002 192.126 247.902 212.926 242.802" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 36; stroke-linecap: round; stroke-linejoin: round;">
+        </path>
+        <path id="N" class="signature-path" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 36; stroke-linecap: round; stroke-linejoin: round;" d="M 269 346 C 269 346 269.8 201.5 275 215 C 280.2 228.5 312.9 302.4 370 313 C 373.7 268.9 345.3 252.7 354 187">
+        </path>
+        <path id="D" class="signature-path" d="M 432.05 324.248 C 426.45 313.448 428.05 201.248 428.05 201.248 C 428.05 201.248 481.168 215.522 507.05 229.248 C 532.932 242.974 550.917 258.46 550.05 286.248 C 549.183 314.036 510.921 319.313 489.05 324.248 C 467.179 329.183 437.65 335.048 432.05 324.248 Z" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 36; stroke-linecap: round; stroke-linejoin: round;">
+        </path>
+        <path id="R" class="signature-path" d="M 607.449 340.414 L 593.449 224.414 C 593.449 224.414 606.039 194.736 645.449 191.414 C 684.869 188.092 703.709 208.143 706.899 222.917 C 710.099 237.691 703.319 256.495 675.409 268.051 C 649.909 277.751 619.229 288.712 619.229 288.712 C 619.229 288.712 664.149 322.514 733.449 330.414" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 36; stroke-linecap: round; stroke-linejoin: round;">
+        </path>
+        <path id="E" class="signature-path" d="M 848.36 202.955 L 770.36 202.955 L 773.36 311.955 C 773.36 311.955 769.06 353.555 798.36 348.955 C 827.67 344.355 839.54 352.644 852.52 332.152" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 36; stroke-linecap: round; stroke-linejoin: round;">
+        </path>
+        <path id="E-dash" class="signature-path" d="M 778.211 268.883 C 778.211 268.883 798.631 263.652 846.211 264.883" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 36; stroke-linecap: round; stroke-linejoin: round;">
+        </path>
+        <path id="A" class="signature-path" d="M 903.534 345.786 C 903.534 345.786 942.944 206.286 958.534 200.786 C 974.144 195.286 1007.84 332.486 1026.53 345.786" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 36; stroke-linecap: round; stroke-linejoin: round;">
+        </path>
+        <path id="A-dash" class="signature-path" d="M 910.856 283.559 C 910.856 283.559 928.466 298.059 1016.85 285.559" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 36; stroke-linecap: round; stroke-linejoin: round;">
+        </path>
+      </svg>
+
+      <p class="text-[22px] md:text-[28px] text-white/90 mb-8 font-light leading-snug">
+        Machine Learning Software Engineer
+      </p>
+      <a 
+        href="#about" 
+        rel="noopener noreferrer"
+        class="btn-gradient px-6 py-3 rounded-full text-white font-semibold hover-lift inline-block text-center"
+      >
+        Start
+      </a>
+    </div>
+  </section>
+
+  <section id="about" class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-5xl font-black text-center text-white mb-16">ME IN A NUTSHELL</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+  
+        <!-- Education -->
+        <div class="glass rounded-3xl p-8 hover-lift card-3d">
+          <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-6 flex items-center justify-center">
+            <i class="fas fa-graduation-cap text-white text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-4">EDUCATION</h3>
+          <p class="text-white/80 leading-relaxed">
+            MSc double degree in Computer Engineering (Data Science) at Politecnico di Milano and Aalto University. Fun-fact: I don't drink coffee.
+          </p>
+        </div>
+  
+        <!-- Career -->
+        <div class="glass rounded-3xl p-8 hover-lift card-3d" style="animation-delay: 0.2s;">
+          <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-red-500 rounded-2xl mb-6 flex items-center justify-center">
+            <i class="fas fa-flag-checkered text-white text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-4">CAREER</h3>
+          <p class="text-white/80 leading-relaxed">
+            I build data and machine learning tools for Scuderia Ferrari HP in the F1 aerodynamics team. Most days: code, experiments, and vroom-vroom.
+          </p>
+        </div>
+  
+        <!-- Mindset -->
+        <div class="glass rounded-3xl p-8 hover-lift card-3d" style="animation-delay: 0.4s;">
+          <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl mb-6 flex items-center justify-center">
+            <i class="fas fa-brain text-white text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-4">MINDSET</h3>
+          <p class="text-white/80 leading-relaxed">
+            I love simple, creative solutions. There’s always something new to learn — and that’s what keeps things interesting.
+          </p>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+
+
+  <section id="projects" class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-5xl font-black text-center text-white mb-16">FEATURED WORKS</h2>
+      <div class="space-y-16">
+        <div class="flex flex-col lg:flex-row items-center gap-12">
+          <div class="lg:w-1/2 space-y-6">
+            <h3 class="text-4xl font-bold text-white">ACM RecSys Challenge 2023</h3>
+            <p class="text-xl text-white/80 leading-relaxed">My team Gabibboost won the academic track.<br>Goal was predict click probabilities for online advertisement.</p>
+            <a 
+              href="https://github.com/AndreaRiboni/recsys-challenge-2023-sharechat" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="btn-gradient px-6 py-3 rounded-full text-white font-semibold hover-lift inline-block text-center"
+            >
+              Explore Project →
+            </a>
+          </div>
+          <div class="lg:w-1/2">
+            <div class="project-card rounded-3xl p-8 h-64 flex items-center justify-center">
+              <div class="text-white/60 text-6xl font-bold">RECSYS</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row-reverse items-center gap-12">
+          <div class="lg:w-1/2 space-y-6">
+            <h3 class="text-4xl font-bold text-white">Chat Wrapped</h3>
+            <p class="text-xl text-white/80 leading-relaxed">A chat analysis notebook.<br>Export your Telegram/Whatsapp chats and have fun creating insightful reports.</p>
+            <a 
+              href="https://github.com/AndreaRiboni/Telegram-Whatsapp-Wrapped" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="btn-gradient px-6 py-3 rounded-full text-white font-semibold hover-lift inline-block text-center"
+            >
+              Dive Deeper →
+            </a>
+          </div>
+          <div class="lg:w-1/2">
+            <div class="project-card rounded-3xl p-8 h-64 flex items-center justify-center">
+              <div class="text-white/60 text-6xl font-bold">DATA</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-20 relative">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-5xl font-black text-white mb-8">HIT ME UP</h2>
+      <p class="text-xl text-white/80 mb-12 leading-relaxed">
+        To get in touch with me, you can use one of these services
+      </p>
+      <div class="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-6">
+        
+        <!-- LinkedIn Button -->
+        <a href="https://linkedin.com/in/andrea-riboni" target="_blank" 
+           class="btn-gradient px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition">
+          <i class="fab fa-linkedin fa-lg"></i>
+          LinkedIn
+        </a>
+  
+        <!-- GitHub Button -->
+        <a href="https://github.com/AndreaRiboni" target="_blank" 
+           class="btn-gradient px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition">
+          <i class="fab fa-github fa-lg"></i>
+          GitHub
+        </a>
+  
+        <!-- Telegram Button -->
+        <a href="https://t.me/datandre" target="_blank" 
+           class="btn-gradient px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition">
+          <i class="fab fa-telegram fa-lg"></i>
+          Telegram
+        </a>
+  
+        <!-- Discord Copy Button -->
+        <button onclick="copyDiscord()" 
+           class="btn-gradient px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition">
+          <i class="fab fa-discord fa-lg"></i>
+          Discord
+        </button>
+  
+      </div>
+  
+      <!-- Copy Notification -->
+      <div id="copyNotification" class="text-white/80 text-sm mt-6 opacity-0 transition-opacity duration-300">Copied to clipboard!</div>
+    </div>
+  </section>
+
+  <section id="advanced" class="py-20 relative">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-5xl font-black text-white mb-8">EXTRA</h2>
+      <p class="text-xl text-white/80 mb-12 leading-relaxed">
+        Advanced mode here! Beware.
+      </p>
+      <div class="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-6">
+        
+        <a href="/terminal"
+           class="px-8 py-4 rounded-full text-white font-bold border border-white/20 hover:bg-white/10 transition">
+          &nbsp<i class="fas fa-terminal"></i>
+          I am a programmer
+        </a>
+  
+        <button id="tokenToggle"
+                type="button"
+                class="px-8 py-4 rounded-full text-white font-bold border border-white/20 hover:bg-white/10 transition">
+          &nbsp<i class="fas fa-robot"></i>
+          <span id="tokenToggleLabel">I am an LLM</span>
+        </button>
+
+  
+      </div>
+  
+    </div>
+  </section>
+
+  
+  <div class="scroll-indicator">
+    Scroll to explore
+  </div>
+
+  <footer class="py-12 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <p class="text-white/60">© 2025 Andrea. Engineered for the curious.</p>
+    </div>
+  </footer>
+</body>
+</html>

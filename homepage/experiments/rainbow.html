@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andrea Riboni</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ===== Global Styles ===== */
+    ::-webkit-scrollbar { display: none; }
+    body {
+      margin:0;
+      background:#000; /* deep black */
+      color:#fff;
+      overflow-x:hidden;
+      font-family: "Inter", sans-serif; /* Added Inter font */
+    }
+    canvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; }
+    /* Layers */
+    #particles { z-index:1; }
+    #grid { z-index:0; }
+
+    /* ===== Header Banner ===== */
+    .header-banner {
+      background:#000;
+      border-bottom:1px solid rgba(255,255,255,0.15);
+      padding:5rem 0;
+      width:100%;
+    }
+    .header-banner h1{ font-size:4rem; line-height:1; }
+    .header-banner span{ font-size:1.5rem; }
+
+    /* ===== Card + Blur ===== */
+    .content-card{
+      position:relative;
+      background:rgba(255,255,255,0.12);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:inset 0 0 12px rgba(255,255,255,0.06);
+      transition:background 0.4s ease, transform 0.2s ease; /* Added transform transition */
+    }
+    .content-card:hover{ 
+      background:rgba(255,255,255,0.16); 
+      transform: translateY(-5px); /* Slight lift on hover */
+    }
+
+    /* ===== Scroll‑in animation (faster) ===== */
+    .fade-in-up{ opacity:0; transform:translateY(40px); transition:opacity 0.6s ease-out, transform 0.6s ease-out; } /* Increased transition duration */
+    .fade-in-up.show{ opacity:1; transform:translateY(0); }
+
+    /* Social icons hover effect */
+    .social-icon-link:hover svg {
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)); /* Add glow effect */
+    }
+  </style>
+</head>
+<body>
+  <canvas id="grid"></canvas>
+  <canvas id="particles"></canvas>
+  
+  <header class="header-banner z-10 relative">
+    <div class="flex flex-col md:flex-row items-center justify-center py-4 px-6 text-center">
+      <h1 class="font-bold tracking-wide text-white">Andrea Riboni</h1>
+      <span class="md:ml-3 mt-2 md:mt-0 opacity-80 text-gray-300">ML Engineer @ Ferrari</span>
+    </div>
+  </header>
+
+  <div id="content" class="relative z-10 flex flex-col items-center w-full pointer-events-none pt-12">
+    <section class="content-card fade-in-up pointer-events-auto w-full max-w-lg my-12 md:my-24 p-6 rounded-2xl shadow-xl">
+      <h2 class="mb-4 text-3xl font-bold text-white">Who am I?</h2>
+      <p class="text-base leading-relaxed text-gray-200">
+        Machine‑Learning Software Engineer @ Scuderia Ferrari HP – Aerodynamics Dept.<br><br>
+        Passionately about end‑to‑end data systems, GenAI &amp; CFD. I create intelligent solutions that push the boundaries of automotive performance.
+      </p>
+    </section>
+
+    <section class="content-card fade-in-up pointer-events-auto w-full max-w-lg my-12 md:my-24 p-6 rounded-2xl shadow-xl">
+      <h2 class="mb-4 text-3xl font-bold text-white">Journey &amp; Experience</h2>
+      <div class="space-y-4 text-base">
+        <div class="border-l-2 border-white/30 pl-4">
+          <h3 class="font-semibold text-lg text-white">MSc Computer Science</h3>
+          <p class="text-sm opacity-75 text-gray-300">Politecnico di Milano &amp; Aalto University (EIT Digital)</p>
+        </div>
+        <div class="border-l-2 border-white/30 pl-4">
+          <h3 class="font-semibold text-lg text-white">ML Software Engineer</h3>
+          <p class="text-sm opacity-75 text-gray-300">Scuderia Ferrari HP (2023‑present)</p>
+        </div>
+        <div class="border-l-2 border-white/30 pl-4">
+          <h3 class="font-semibold text-lg text-white">Thesis Intern</h3>
+          <p class="text-sm opacity-75 text-gray-300">Ferrari (2022‑2023)</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-card fade-in-up pointer-events-auto w-full max-w-lg my-12 md:my-24 p-6 rounded-2xl shadow-xl">
+      <h2 class="mb-4 text-3xl font-bold text-white">Technical Arsenal</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div class="space-y-2">
+          <h3 class="font-semibold text-base text-white">AI/ML</h3>
+          <p class="opacity-75 text-gray-300">Deep Learning, GenAI, MLOps</p>
+        </div>
+        <div class="space-y-2">
+          <h3 class="font-semibull text-base text-white">Engineering</h3>
+          <p class="opacity-75 text-gray-300">CFD, Data Systems, Python</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-card fade-in-up pointer-events-auto flex items-center justify-center w-full max-w-lg my-12 md:my-24 p-8 space-x-8 rounded-2xl shadow-xl">
+      <a href="https://github.com/AndreaRiboni" target="_blank" aria-label="GitHub" class="social-icon-link transition-all duration-300 transform hover:scale-125 hover:rotate-12">
+        <svg class="w-10 h-10 fill-current text-white" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 .297C5.373.297 0 5.67 0 12.297c0 5.302 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.613-4.042-1.613-.546-1.388-1.333-1.757-1.333-1.757-1.09-.745.082-.729.082-.729 1.204.086 1.838 1.255 1.838 1.255 1.07 1.836 2.809 1.305 3.495.998.107-.775.42-1.305.763-1.605-2.665-.304-5.467-1.332-5.467-5.931 0-1.31.468-2.382 1.235-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.53 11.53 0 013.003-.404c1.018.005 2.042.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.655 1.653.243 2.873.12 3.176.77.839 1.233 1.911 1.233 3.221 0 4.61-2.807 5.624-5.479 5.921.431.371.815 1.103.815 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.593 24 12.297 24 5.67 18.627.297 12 .297z" />
+        </svg>
+      </a>
+      <a href="https://linkedin.com/in/Andrea-Riboni" target="_blank" aria-label="LinkedIn" class="social-icon-link transition-all duration-300 transform hover:scale-125 hover:-rotate-12">
+        <svg class="w-10 h-10 fill-current text-white" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.27c-.97 0-1.75-.79-1.75-1.76 0-.97.78-1.76 1.75-1.76s1.75.79 1.75 1.76c0 .97-.78 1.76-1.75 1.76zm13.5 12.27h-3v-5.56c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.44-2.14 2.94v5.66h-3v-11h2.88v1.5h.04c.4-.75 1.38-1.54 2.85-1.54 3.05 0 3.61 2.01 3.61 4.63v6.41z" />
+        </svg>
+      </a>
+    </section>
+    <div class="h-96"></div>
+  </div>
+
+  <script>
+    /* ================== Particle System – “alive”, scroll-wave-aware  ================= */
+    (() => {
+      const canvas = document.getElementById("particles");
+      const ctx    = canvas.getContext("2d");
+      const dpr    = window.devicePixelRatio || 1;
+    
+      /* === Tunables === */
+      const PARTICLE_COUNT = 30;
+      const REPEL_FORCE    = 0.00035;   // wave push
+      const SELF_FORCE     = 0.04;      // NEW: self-propulsion strength
+      const HEADING_JITTER = 0.1;      // NEW: how erratic their heading is
+      const DAMPING        = 0.98;
+      const MICRO_AMPLITUDE= 2;
+      const FADE_PORTION   = 0.15;
+      /* ================ */
+    
+      let width, height, globalTime = 0;
+      const particles = [];
+    
+      /* ----- helpers copied from original ----- */
+      function getWave(x, y, time) {
+        const scrollRatio =
+          window.scrollY / Math.max(document.body.scrollHeight - height, 1);
+        const phase = scrollRatio * Math.PI * 4 + time;
+        return Math.sin(x * 0.01 + phase) * Math.cos(y * 0.008 + phase) * 0.5 * 50;
+      }
+      function getTilt() {
+        const max = Math.max(document.body.scrollHeight - height, 1);
+        return Math.sin((window.scrollY / max) * Math.PI * 2) * 0.2;
+      }
+      /* ---------------------------------------- */
+    
+      function initParticle(p) {
+        p.size       = Math.random() * 3 + 1;
+        p.baseX      = Math.random() * width;
+        p.baseY      = Math.random() * height;
+        p.x          = p.baseX;
+        p.y          = p.baseY;
+        p.vx         = (Math.random() - 0.5) * 0.3;
+        p.vy         = (Math.random() - 0.5) * 0.3;
+        p.heading    = Math.random() * Math.PI * 2;        // NEW
+        p.opacity    = Math.random() * 0.4 + 0.2;
+        p.maxLife    = Math.random() * 1000 + 500;
+        p.age        = 0;
+        p.waveIntensity = Math.random() * 0.8 + 0.2;
+        p.seed       = Math.random() * Math.PI * 2;
+      }
+    
+      function initAllParticles() {
+        particles.length = 0;
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          const p = {};
+          initParticle(p);
+          particles.push(p);
+        }
+      }
+    
+      function resize() {
+        width  = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width  = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width  = width + "px";
+        canvas.style.height = height + "px";
+        ctx.scale(dpr, dpr);
+        initAllParticles();
+      }
+    
+      function draw(now) {
+        globalTime = now * 0.0004;
+        ctx.clearRect(0, 0, width, height);
+    
+        const tilt = getTilt();
+        const midX = width / 2;
+    
+        particles.forEach((p) => {
+          /* ----- lifetime ----- */
+          p.age += 1;
+          if (p.age >= p.maxLife) initParticle(p);
+    
+          /* ----- NEW: self-propulsion ----- */
+          p.heading += (Math.random() - 0.5) * HEADING_JITTER;
+          p.vx += Math.cos(p.heading) * SELF_FORCE;
+          p.vy += Math.sin(p.heading) * SELF_FORCE;
+    
+          /* ----- base drift continues ----- */
+          p.baseX += p.vx;
+          p.baseY += p.vy;
+    
+          /* screen wrap */
+          if (p.baseX < 0)      p.baseX = width;
+          if (p.baseX > width)  p.baseX = 0;
+          if (p.baseY < 0)      p.baseY = height;
+          if (p.baseY > height) p.baseY = 0;
+    
+          /* ----- wave repulsion ----- */
+          const gradX =
+            getWave(p.baseX + 1, p.baseY, globalTime) -
+            getWave(p.baseX - 1, p.baseY, globalTime);
+          const gradY =
+            getWave(p.baseX, p.baseY + 1, globalTime) -
+            getWave(p.baseX, p.baseY - 1, globalTime);
+    
+          p.vx += gradX * REPEL_FORCE;
+          p.vy += gradY * REPEL_FORCE;
+    
+          /* friction */
+          p.vx *= DAMPING;
+          p.vy *= DAMPING;
+    
+          /* ----- micro wiggle ----- */
+          const microX =
+            Math.sin(globalTime * 1.5 + p.seed) *
+            MICRO_AMPLITUDE *
+            p.waveIntensity;
+          const microY =
+            Math.cos(globalTime * 1.7 + p.seed) *
+            MICRO_AMPLITUDE *
+            p.waveIntensity;
+    
+          /* wave & tilt offsets */
+          const waveOffset = getWave(p.baseX, p.baseY, globalTime) * p.waveIntensity;
+          const tiltEffect = tilt * (p.baseX - midX) * 0.002;
+    
+          /* final position */
+          p.x = p.baseX + waveOffset * 0.5 + microX;
+          p.y = p.baseY + waveOffset * 0.3 + tiltEffect * 50 + microY;
+    
+          /* fade-in/out */
+          const lifeProgress = p.age / p.maxLife;
+          let fade = 1;
+          if (lifeProgress < FADE_PORTION) {
+            fade = lifeProgress / FADE_PORTION;
+          } else if (lifeProgress > 1 - FADE_PORTION) {
+            fade = (1 - lifeProgress) / FADE_PORTION;
+          }
+    
+          /* glow modulation */
+          const waveGlow    = Math.abs(waveOffset) / 25;
+          const finalOpacity = Math.min(1, p.opacity * fade + waveGlow * 0.2);
+    
+          /* draw */
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(255,255,255,${finalOpacity})`;
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+    
+          ctx.shadowColor = "rgba(255,255,255,0.5)";
+          ctx.shadowBlur  = p.size * (2 + waveGlow);
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(255,255,255,${finalOpacity * 0.3})`;
+          ctx.arc(p.x, p.y, p.size * 0.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+    
+        requestAnimationFrame(draw);
+      }
+    
+      window.addEventListener("resize", resize, { passive: true });
+      resize();
+      requestAnimationFrame(draw);
+    })();
+    </script>
+    
+  <script>
+    /* ================= CFD‑inspired flowing grid with glowing lines ================= */
+    (()=>{
+      const canvas=document.getElementById('grid');
+      const ctx=canvas.getContext('2d');
+      const dpr=window.devicePixelRatio||1;
+
+      const H_SPACING=60, V_SPACING=100, MAX_TILT=0.2, MAX_WAVE=0.5, GLOW_DISTANCE=200;
+      let width,height,midX; let globalTime=0;
+      const mouse={x:-9999,y:-9999};
+
+      const clamp01=v=>Math.max(0,Math.min(1,v));
+      const hsl=(h,s,l,a=1)=>`hsla(${h},${s}%,${l}%,${a})`;
+
+      function resize(){
+        width=window.innerWidth; height=window.innerHeight; midX=width/2;
+        canvas.width=width*dpr; canvas.height=height*dpr; 
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.scale(dpr, dpr);
+      }
+      function getTilt(){
+        const max=Math.max(document.body.scrollHeight-height,1);
+        return Math.sin((window.scrollY/max)*Math.PI*2)*MAX_TILT;
+      }
+      function getWave(x,y){
+        const scrollRatio=window.scrollY/Math.max(document.body.scrollHeight-height,1);
+        const phase=scrollRatio*Math.PI*4+globalTime;
+        return Math.sin(x*0.01+phase)*Math.cos(y*0.008+phase)*MAX_WAVE*50;
+      }
+
+      window.addEventListener('mousemove',e=>{mouse.x=e.clientX; mouse.y=e.clientY;},{passive:true});
+      window.addEventListener('resize',resize,{passive:true});
+
+      function draw(now){
+        globalTime=now*0.0004; ctx.clearRect(0,0,width,height);
+        const tilt=getTilt();
+        const scrollRatio=window.scrollY/Math.max(document.body.scrollHeight-height,1);
+        const intensity=Math.sin(scrollRatio*Math.PI*3)*0.2+0.5;
+        const baseAlpha=0.25+intensity*0.35;
+        const hueShift=now*0.02;
+        const centerY=height/2;
+
+        /* Horizontal lines */
+        for(let y=-height; y<=height*2; y+=H_SPACING){
+          const centerCloseness=clamp01(1-Math.abs(y-centerY)/centerY);
+          const mouseCloseness=clamp01(1-Math.abs(mouse.y-y)/GLOW_DISTANCE);
+          const glow=Math.max(centerCloseness,mouseCloseness);
+          const hue=(240-((y+window.scrollY)/height)*240+hueShift)%360;
+          const alpha=baseAlpha*(0.8+glow*0.6);
+          ctx.strokeStyle=hsl(hue,90,55,alpha);
+          ctx.save();
+          ctx.lineWidth=2; 
+          ctx.shadowBlur=4+glow*12;
+          ctx.shadowColor=hsl(hue,90,70,alpha);
+          ctx.beginPath();
+          let first=true;
+          for(let x=0;x<=width;x+=10){
+            const wave=getWave(x,y);
+            const tiltEff=tilt*(x-midX)*0.002;
+            const py=y+wave+tiltEff*100;
+            if(first){
+              ctx.moveTo(x,py);
+              first=false;
+            } else {
+              ctx.lineTo(x,py);
+            }
+          }
+          ctx.stroke(); ctx.restore();
+        }
+
+        /* Vertical lines */
+        for(let x=0; x<=width; x+=V_SPACING){
+          const centerCloseness=clamp01(1-Math.abs(x-midX)/midX);
+          const mouseCloseness=clamp01(1-Math.abs(mouse.x-x)/GLOW_DISTANCE);
+          const glow=Math.max(centerCloseness,mouseCloseness);
+          const hue=((x/width)*240+180+hueShift)%360;
+          const alpha=baseAlpha*(0.8+glow*0.6);
+          ctx.strokeStyle=hsl(hue,90,55,alpha);
+          ctx.save();
+          ctx.lineWidth=2;
+          ctx.shadowBlur=4+glow*12;
+          ctx.shadowColor=hsl(hue,90,70,alpha);
+          ctx.beginPath();
+          let first=true;
+          for(let y=-height*2; y<=height*3; y+=10){
+            const waveShift=getWave(x,y)*0.5;
+            const perspective=(x-midX)*tilt*0.001*y;
+            const px=x+waveShift+perspective;
+            if(first){
+              ctx.moveTo(px,y);
+              first=false;
+            } else {
+              ctx.lineTo(px,y);
+            }
+          }
+          ctx.stroke(); ctx.restore();
+        }
+      }
+
+      function loop(ts){ draw(ts); requestAnimationFrame(loop); }
+      resize(); requestAnimationFrame(loop);
+    })();
+
+    /* ================= Scroll‑in intersection observer ================= */
+    document.addEventListener('DOMContentLoaded',()=>{
+      const observer=new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('show'); } });
+      },{threshold:0.15});
+      document.querySelectorAll('.fade-in-up').forEach(el=>observer.observe(el));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andrea Riboni</title>
+  <!-- Tailwind CDN (for quick prototyping) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ===== Global ===== */
+    ::-webkit-scrollbar { display: none }
+    body {
+      margin: 0;
+      color: #fff;
+      /* Black with subtle grain */
+      background: #000 url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAIUlEQVQoU2NkQAN/GHgEwn4GBgYkFoAIgxo4oQeAaHEAALTjDvYAClwtAAAAAElFTkSuQmCC") repeat;
+      background-size: 150px 150px;
+      background-blend-mode: overlay;
+      overflow-x: hidden;
+      font-family: "Inter", sans-serif;
+    }
+
+    /* Layering */
+    #shader-bg { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1 }
+    header, #content { position: relative; z-index: 10 }
+
+    /* ===== Header ===== */
+    .header-banner { background: #000; border-bottom: 1px solid rgba(255, 255, 255, .15); padding: 5rem 0; width: 100% }
+    .header-banner h1 { font-size: 4rem; line-height: 1 }
+    .header-banner span { font-size: 1.5rem }
+
+    /* ===== Frosted cards ===== */
+    .content-card { position: relative; background: linear-gradient(135deg, rgba(255, 255, 255, .15) 0%, rgba(255, 255, 255, .05) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, .25); box-shadow: inset 0 0 12px rgba(255, 255, 255, .06); transition: background .4s ease, transform .2s ease; will-change: transform }
+    .content-card:hover { background: linear-gradient(135deg, rgba(255, 255, 255, .18) 0%, rgba(255, 255, 255, .08) 100%); transform: translateY(-5px) }
+
+    /* Scroll-in */
+    .fade-in-up { opacity: 0; transform: translateY(40px); transition: opacity .6s ease-out, transform .6s ease-out }
+    .fade-in-up.show { opacity: 1; transform: translateY(0) }
+
+    /* Social icon hover */
+    .social-icon-link:hover svg { filter: drop-shadow(0 0 8px rgba(255, 255, 255, .6)) }
+  </style>
+</head>
+<body>
+  <!-- Fragment-shader canvas -->
+  <div id="shader-bg"></div>
+
+  <!-- ===== Hero ===== -->
+  <header class="header-banner">
+    <div class="flex flex-col md:flex-row items-center justify-center py-4 px-6 text-center">
+      <h1 class="font-bold tracking-wide text-white">Andrea Riboni</h1>
+      <span class="md:ml-3 mt-2 md:mt-0 opacity-80 text-gray-300">ML Engineer @ Ferrari</span>
+    </div>
+  </header>
+
+  <!-- ===== Content ===== -->
+  <div id="content" class="flex flex-col items-center w-full pointer-events-none pt-12">
+    <!-- Who am I -->
+    <section class="content-card fade-in-up pointer-events-auto w-full max-w-lg my-12 md:my-24 p-6 rounded-2xl shadow-xl">
+      <h2 class="mb-4 text-3xl font-bold text-white">Who am I?</h2>
+      <p class="text-base leading-relaxed text-gray-200">
+        Machine-Learning Software Engineer @ Scuderia Ferrari HP – Aerodynamics Dept.<br><br>
+        Passionate about end-to-end data systems, GenAI &amp; CFD. I create intelligent solutions that push the boundaries of automotive performance.
+      </p>
+    </section>
+
+    <!-- Journey -->
+    <section class="content-card fade-in-up pointer-events-auto w-full max-w-lg my-12 md:my-24 p-6 rounded-2xl shadow-xl">
+      <h2 class="mb-4 text-3xl font-bold text-white">Journey &amp; Experience</h2>
+      <div class="space-y-4 text-base">
+        <div class="border-l-2 border-white/30 pl-4">
+          <h3 class="font-semibold text-lg text-white">MSc Computer Science</h3>
+          <p class="text-sm opacity-75 text-gray-300">Politecnico di Milano &amp; Aalto University (EIT Digital)</p>
+        </div>
+        <div class="border-l-2 border-white/30 pl-4">
+          <h3 class="font-semibold text-lg text-white">ML Software Engineer</h3>
+          <p class="text-sm opacity-75 text-gray-300">Scuderia Ferrari HP (2023-present)</p>
+        </div>
+        <div class="border-l-2 border-white/30 pl-4">
+          <h3 class="font-semibold text-lg text-white">Thesis Intern</h3>
+          <p class="text-sm opacity-75 text-gray-300">Ferrari (2022-2023)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical stack -->
+    <section class="content-card fade-in-up pointer-events-auto w-full max-w-lg my-12 md:my-24 p-6 rounded-2xl shadow-xl">
+      <h2 class="mb-4 text-3xl font-bold text-white">Technical Arsenal</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div class="space-y-2">
+          <h3 class="font-semibold text-base text-white">AI/ML</h3>
+          <p class="opacity-75 text-gray-300">Deep Learning, GenAI, MLOps</p>
+        </div>
+        <div class="space-y-2">
+          <h3 class="font-semibold text-base text-white">Engineering</h3>
+          <p class="opacity-75 text-gray-300">CFD, Data Systems, Python</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Socials -->
+    <section class="content-card fade-in-up pointer-events-auto flex items-center justify-center w-full max-w-lg my-12 md:my-24 p-8 space-x-8 rounded-2xl shadow-xl">
+      <a href="https://github.com/AndreaRiboni" target="_blank" aria-label="GitHub" class="social-icon-link transition-all duration-300 transform hover:scale-125 hover:rotate-12">
+        <svg class="w-10 h-10 fill-current text-white" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297C5.373.297 0 5.67 0 12.297c0 5.302 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.613-4.042-1.613-.546-1.388-1.333-1.757-1.333-1.757-1.09-.745.082-.729.082-.729 1.204.086 1.838 1.255 1.838 1.255 1.07 1.836 2.809 1.305 3.495.998.107-.775.42-1.305.763-1.605-2.665-.304-5.467-1.332-5.467-5.931 0-1.31.468-2.382 1.235-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.53 11.53 0 013.003-.404c1.018.005 2.042.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.655 1.653.243 2.873.12 3.176.77.839 1.233 1.911 1.233 3.221 0 4.61-2.807 5.624-5.479 5.921.431.371.815 1.103.815 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825].replace_all("nds","")}"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/Andrea-Riboni" target="_blank" aria-label="LinkedIn" class="social-icon-link transition-all duration-300 transform hover:scale-125 hover:-rotate-12">
+        <svg class="w-10 h-10 fill-current text-white" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.27c-.97 0-1.75-.79-1.75-1.76 0-.97.78-1.76 1.75-1.76s1.75.79 1.75 1.76c0 .97-.78 1.76-1.75 1.76zm13.5 12.27h-3v-5.56c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.44-2.14 2.94v5.66h-3v-11h2.88v1.5h.04c.4-.75 1.38-1.54 2.85-1.54 3.05 0 3.61 2.01 3.61 4.63v6.41z"/></svg>
+      </a>
+    </section>
+
+    <div class="h-96"></div>
+  </div>
+
+  <!-- ==================== Three.js Gaussian + CFD colormap background ==================== -->
+  <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
+  <script>
+    (function() {
+      const container = document.getElementById('shader-bg');
+
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setPixelRatio(window.devicePixelRatio || 1);
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.domElement.style.width  = '100%';
+      renderer.domElement.style.height = '100%';
+      container.appendChild(renderer.domElement);
+
+      const scene  = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 100);
+      camera.position.z = 5;
+
+      /* ---------- Shader ---------- */
+      const uniforms = {
+        uTime: { value: 0 },
+        uRes:  { value: new THREE.Vector2(innerWidth, innerHeight) }
+      };
+
+      const vertex = /* glsl */`
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `;
+
+      const fragment = /* glsl */`
+        uniform float uTime;
+        uniform vec2  uRes;
+        varying vec2  vUv;
+        #define PI 3.1415926
+
+        /* Gaussian curve */
+        float gaussian(float x, float mu, float sigma) {
+          return exp(-pow((x - mu), 2.0) / (2.0 * pow(sigma, 2.0)));
+        }
+
+        /* CFD rainbow palette (blue ➜ red) */
+        vec3 cfdRainbow(float t) {
+          t = clamp(t, 0.0, 1.0);
+          vec3 color;
+          if (t < 0.16667) {
+            float f = t / 0.16667;
+            color = vec3(0.0, f, 1.0);
+          } else if (t < 0.33333) {
+            float f = (t - 0.16667) / 0.16667;
+            color = vec3(0.0, 1.0, 1.0 - f);
+          } else if (t < 0.5) {
+            float f = (t - 0.33333) / 0.16667;
+            color = vec3(f, 1.0, 0.0);
+          } else if (t < 0.66667) {
+            float f = (t - 0.5) / 0.16667;
+            color = vec3(1.0, 1.0 - f * 0.5, 0.0);
+          } else if (t < 0.83333) {
+            float f = (t - 0.66667) / 0.16667;
+            color = vec3(1.0, 0.5 - f * 0.5, 0.0);
+          } else {
+            float f = (t - 0.83333) / 0.16667;
+            color = vec3(1.0, 0.0, f);
+          }
+          return color;
+        }
+
+        void main() {
+          // Normalized coords 0–1
+          vec2 st = vUv;
+
+          // Time-animated means for 3 Gaussian bumps
+          float mu1 = 0.25 + 0.03 * sin(uTime * 0.1);
+          float mu2 = 0.50 + 0.04 * sin(uTime * 0.13 + 2.0);
+          float mu3 = 0.75 + 0.03 * sin(uTime * 0.09 + 4.0);
+
+          float g1 = gaussian(st.x, mu1, 0.06);
+          float g2 = gaussian(st.x, mu2, 0.08);
+          float g3 = gaussian(st.x, mu3, 0.05);
+          float g  = g1 + g2 + g3;
+
+          // Map Gaussian amplitude to rainbow colormap
+          vec3 col = cfdRainbow(fract(g * 3.0 + uTime * 0.02));
+
+          // Subtle vertical fade out (keep centre area stronger)
+          float fadeY = smoothstep(0.15, 0.0, abs(st.y - 0.5));
+          float alpha = g * 0.5 * fadeY;
+
+          gl_FragColor = vec4(col, alpha);
+        }
+      `;
+
+      const mat = new THREE.ShaderMaterial({
+        uniforms,
+        vertexShader: vertex,
+        fragmentShader: fragment,
+        transparent: true,
+        depthWrite: false
+      });
+
+      const plane = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 1, 1), mat);
+      scene.add(plane);
+
+      /* ---------- Resize ---------- */
+      window.addEventListener('resize', () => {
+        renderer.setSize(innerWidth, innerHeight);
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+        uniforms.uRes.value.set(innerWidth, innerHeight);
+      }, { passive: true });
+
+      /* ---------- Render loop ---------- */
+      function loop(t) {
+        uniforms.uTime.value = t * 0.001;
+        renderer.render(scene, camera);
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    })();
+  </script>
+
+  <!-- ==================== Scroll-in observer ==================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+      }, { threshold: .15 });
+      document.querySelectorAll('.fade-in-up').forEach(el => obs.observe(el));
+    });
+  </script>
+</body>
+</html>
