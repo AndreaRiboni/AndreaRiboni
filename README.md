@@ -33,14 +33,6 @@ Politecnico di Milano & Aalto University (cum laude)
 
 ---
 
-### 🏆 Highlights
-
-My team-mates and I won the ACM RecSys Challenge 2023 (1st academic track). Quite fun.
-
-And we even had a paper about it! [DOI: 10.1145/3626221.3627288](https://doi.org/10.1145/3626221.3627288)
-
----
-
 ### 🔗 Connect with me
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/Andrea-Riboni)
