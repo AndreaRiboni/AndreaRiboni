@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amarante&family=Pixelify+Sans:wght@400..700&family=Righteous&family=Tiny5&display=swap');
 
 * {
     font-family: 'Poppins', sans-serif;
@@ -172,18 +173,10 @@ section:hover {
     /* transform: translateY(-2px); */
 }
 
+
 .section-title {
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 700;
-    margin-bottom: 1rem;
-    background: linear-gradient(45deg, #66ccff, #ff6b9d, #c471ed, #12d8fa);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradientShift 8s ease-in-out infinite;
-    text-align: center;
-    letter-spacing: -0.02em;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
 }
 
 .section-subtitle {
@@ -358,16 +351,6 @@ section:hover {
     transform: rotateY(10deg) rotateX(10deg);
 }
 
-/* Text effects */
-.text-shimmer {
-    background: linear-gradient(45deg, #5a9aff, #d1c4ff, #ffffff, #5a9aff);
-    background-size: 400% 400%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradientShift 8s ease infinite;
-}
-
 /* Project cards with depth */
 .project-card {
     background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
@@ -411,26 +394,26 @@ section:hover {
 }
 
 /* Mobile & tablet: show full nav permanently */
+/* Mobile & tablet: show full nav permanently */
 @media (max-width: 768px) {
     .dynamic-island {
-    width: calc(100% - 2rem);
-    padding-inline: 1rem;
-    justify-content: space-between;
+        width: calc(100% - 2rem);
+        padding-inline: 1rem;
+        justify-content: flex-start;
+        overflow-x: auto; /* Allow horizontal scrolling */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     }
     .dynamic-island .links {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(0);
+        flex-shrink: 0; /* Prevent shrinking */
+    }
+    .dynamic-island .brand {
+        flex-shrink: 0; /* Also prevent brand from shrinking */
     }
 }
 
-/* Responsive adjustments for blobs */
-@media (max-width: 768px) {
-    .blob-1, .blob-2, .blob-3 {
-    width: 150px;
-    height: 150px;
-    }
-}
 
 @media (max-width: 768px) {
     section {

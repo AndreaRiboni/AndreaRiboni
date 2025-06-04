@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reebo Portfolio</title>
+  <title>Andrea's Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="/static/css/homepage-styling.css">
+  <link rel="stylesheet" href="/static/css/text-slide.css">
   <script src="/static/js/homepage-scripts.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-tiktoken@1.0.12/"></script>
   <script src="/static/js/token-scripts.js"></script>
+  <script src="/static/js/text-slide.js"></script>
   <script type="importmap">
     {
       "imports": {
@@ -44,7 +46,7 @@
   <section id="home" class="hero-container flex items-center justify-center relative">
 
     <div class="text-center z-10 px-6 max-w-4xl mx-auto">
-      <h1 class="text-6xl md:text-8xl font-black mb-6 text-shimmer leading-tight">
+      <h1 class="text-6xl md:text-8xl font-black mb-6 leading-tight section-title" id="letter-scroll-container">
         HERE'S
       </h1>
       
@@ -84,7 +86,7 @@
 
   <section id="about" class="py-20 relative">
     <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-5xl font-black text-center text-white mb-16">ME IN A NUTSHELL</h2>
+      <h2 class="text-5xl font-black text-center text-white mb-16 section-title">In a Nutshell</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
   
         <!-- Education -->
@@ -92,7 +94,7 @@
           <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-6 flex items-center justify-center">
             <i class="fas fa-graduation-cap text-white text-3xl"></i>
           </div>
-          <h3 class="text-2xl font-bold text-white mb-4">EDUCATION</h3>
+          <h3 class="text-2xl font-bold text-white mb-4">Education</h3>
           <p class="text-white/80 leading-relaxed">
             MSc double degree in Computer Engineering (Data Science) at Politecnico di Milano and Aalto University. Fun-fact: I don't drink coffee.
           </p>
@@ -103,7 +105,7 @@
           <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-red-500 rounded-2xl mb-6 flex items-center justify-center">
             <i class="fas fa-flag-checkered text-white text-3xl"></i>
           </div>
-          <h3 class="text-2xl font-bold text-white mb-4">CAREER</h3>
+          <h3 class="text-2xl font-bold text-white mb-4">Career</h3>
           <p class="text-white/80 leading-relaxed">
             I build data and machine learning tools for Scuderia Ferrari HP in the F1 aerodynamics team. Most days: code, experiments, and vroom-vroom.
           </p>
@@ -114,7 +116,7 @@
           <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl mb-6 flex items-center justify-center">
             <i class="fas fa-brain text-white text-3xl"></i>
           </div>
-          <h3 class="text-2xl font-bold text-white mb-4">MINDSET</h3>
+          <h3 class="text-2xl font-bold text-white mb-4">Mindset</h3>
           <p class="text-white/80 leading-relaxed">
             I love simple, creative solutions. There’s always something new to learn — and that’s what keeps things interesting.
           </p>
@@ -127,12 +129,12 @@
 
   <section id="projects" class="py-20 relative">
     <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-5xl font-black text-center text-white mb-16">FEATURED WORKS</h2>
+      <h2 class="text-5xl font-black text-center text-white mb-16 section-title">Featured Works</h2>
       <div class="space-y-16">
         <div class="flex flex-col lg:flex-row items-center gap-12">
           <div class="lg:w-1/2 space-y-6">
             <h3 class="text-4xl font-bold text-white">ACM RecSys Challenge 2023</h3>
-            <p class="text-xl text-white/80 leading-relaxed">My team Gabibboost won the academic track.<br>Goal was predict click probabilities for online advertisement.</p>
+            <p class="text-xl text-white/80 leading-relaxed">My team Gabibboost won the academic track.<br>The goal was to predict click probabilities for online advertisements.</p>
             <a 
               href="https://github.com/AndreaRiboni/recsys-challenge-2023-sharechat" 
               target="_blank" 
@@ -175,7 +177,7 @@
 
   <section id="contact" class="py-20 relative">
     <div class="max-w-4xl mx-auto px-6 text-center">
-      <h2 class="text-5xl font-black text-white mb-8">HIT ME UP</h2>
+      <h2 class="text-5xl font-black text-white mb-8 section-title">Hit Me Up</h2>
       <p class="text-xl text-white/80 mb-12 leading-relaxed">
         To get in touch with me, you can use one of these services
       </p>
@@ -218,7 +220,7 @@
 
   <section id="advanced" class="py-20 relative">
     <div class="max-w-4xl mx-auto px-6 text-center">
-      <h2 class="text-5xl font-black text-white mb-8">EXTRA</h2>
+      <h2 class="text-5xl font-black text-white mb-8 section-title">Extra</h2>
       <p class="text-xl text-white/80 mb-12 leading-relaxed">
         Advanced mode here! Beware.
       </p>
