@@ -68,7 +68,3 @@ window.addEventListener('load', () => {
     }
 
 });
-
-// Generate particles periodically
-setInterval(createParticle, 3000);
-

@@ -6,7 +6,6 @@ let colorPhase = 0;
 init();
 animate();
 setupScrollEffects();
-createFloatingParticles();
 
 function init() {
     clock = new THREE.Clock();
@@ -23,9 +22,11 @@ function init() {
 
     // Renderer
     renderer = new THREE.WebGLRenderer({ 
-    antialias: true, 
-    alpha: true,
-    powerPreference: "high-performance"
+        antialias: false, // Disabled for better performance
+        alpha: true,
+        powerPreference: "high-performance",
+        stencil: false, // Disable stencil buffer
+        depth: true
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -34,17 +35,17 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     // Enhanced Lighting
-    const ambientLight = new THREE.AmbientLight(0x4169e1, 0.4);
+    const ambientLight = new THREE.AmbientLight(0x4169e1, 0.3);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0x66ccff, 0.8);
+    const directionalLight = new THREE.DirectionalLight(0x66ccff, 1.2);
     directionalLight.position.set(10, 10, 5);
     directionalLight.castShadow = true;
-    directionalLight.shadow.mapSize.width = 2048;
-    directionalLight.shadow.mapSize.height = 2048;
+    directionalLight.shadow.mapSize.width = 1024;
+    directionalLight.shadow.mapSize.height = 1024;
     scene.add(directionalLight);
 
-    const pointLight1 = new THREE.PointLight(0xff6b9d, 0.6, 20);
+    const pointLight1 = new THREE.PointLight(0xff6b9d, 0.8, 25);
     pointLight1.position.set(-5, 5, 3);
     scene.add(pointLight1);
 
@@ -52,17 +53,24 @@ function init() {
     pointLight2.position.set(5, -3, 2);
     scene.add(pointLight2);
 
+    const accentLight = new THREE.PointLight(0x00ffaa, 0.4, 15);
+    accentLight.position.set(0, 8, -2);
+    scene.add(accentLight);
+
     // Create Enhanced Blob
     const geometry = new THREE.IcosahedronGeometry(2, 2);
     const material = new THREE.MeshPhysicalMaterial({
-    color: 0x66ccff,
-    roughness: 0.1,
-    metalness: 0.3,
-    clearcoat: 0.8,
-    clearcoatRoughness: 0.2,
-    transmission: 0.1,
-    transparent: true,
-    opacity: 0.9
+       color: 0x66ccff,
+        roughness: 0.05, // Smoother for better reflections
+        metalness: 0.1,
+        clearcoat: 1.0, // Maximum clearcoat for glass-like effect
+        clearcoatRoughness: 0.1,
+        transmission: 0.2, // More transparency
+        transparent: true,
+        opacity: 0.85,
+        ior: 1.4, // Index of refraction for realistic glass effect
+        thickness: 0.5, // For volume rendering
+        envMapIntensity: 1.5, // Stronger environment reflections
     });
 
     blob = new THREE.Mesh(geometry, material);
@@ -98,27 +106,27 @@ function animateBlob() {
     const original = blob.geometry.userData.originalPositions;
 
     for (let i = 0; i < positions.count; i++) {
-    const ix = i * 3;
-    const iy = i * 3 + 1;
-    const iz = i * 3 + 2;
+        const ix = i * 3;
+        const iy = i * 3 + 1;
+        const iz = i * 3 + 2;
 
-    const ox = original[ix];
-    const oy = original[iy];
-    const oz = original[iz];
+        const ox = original[ix];
+        const oy = original[iy];
+        const oz = original[iz];
 
-    // Multi-layered noise for complex deformation
-    const noise1 = Math.sin(time * 0.5 + ox * 2 + oy * 1.5) * 0.15;
-    const noise2 = Math.cos(time * 0.3 + oz * 1.8 + ox * 0.8) * 0.1;
-    const noise3 = Math.sin(time * 0.8 + oy * 2.2 + oz * 1.2) * 0.08;
-    
-    const totalOffset = noise1 + noise2 + noise3;
+        // Multi-layered noise for complex deformation
+        const noise1 = Math.sin(time * 0.75 + ox * 2 + oy * 1.5) * 0.3;
+        const noise2 = Math.cos(time * 0.5 + oz * 1.8 + ox * 0.8) * 0.2;
+        const noise3 = Math.sin(time * 1 + oy * 2.2 + oz * 1.2) * 0.16;
+        
+        const totalOffset = noise1 + noise2 + noise3;
 
-    positions.setXYZ(
-        i,
-        ox + ox * totalOffset,
-        oy + oy * totalOffset,
-        oz + oz * totalOffset
-    );
+        positions.setXYZ(
+            i,
+            ox + ox * totalOffset,
+            oy + oy * totalOffset,
+            oz + oz * totalOffset
+        );
     }
 
     positions.needsUpdate = true;
@@ -142,22 +150,16 @@ function animate() {
     updateBlobColor();
 
     if (blob) {
-    // Smooth rotation based on scroll and mouse
+    // INSTANT rotation based on scroll only (no mouse, no smoothing)
     const scrollY = window.pageYOffset;
-    targetRotation.x = -scrollY * 0.0008 + mouse.y * 0.3;
-    targetRotation.y = scrollY * 0.0005 + mouse.x * 0.2;
+    blob.rotation.x = -scrollY * 0.0008;
+    blob.rotation.y = scrollY * 0.0005;
     
-    blob.rotation.x += (targetRotation.x - blob.rotation.x) * 0.05;
-    // blob.rotation.y += (targetRotation.y - blob.rotation.y) * 0.05;
-    
-    // Floating animation
-    blob.position.y = Math.sin(time * 0.3) * 0.2;
-    blob.position.x = Math.cos(time * 0.2) * 0.1;
+    // Keep blob centered (no floating animation)
+    blob.position.set(0, 0, 0);
     }
 
-    // Camera sway
-    camera.position.x += (mouse.x * 0.5 - camera.position.x) * 0.02;
-    camera.position.y += (mouse.y * 0.3 - camera.position.y) * 0.02;
+    // No camera sway (keep camera static for true center positioning)
     camera.lookAt(scene.position);
 
     renderer.render(scene, camera);
@@ -174,17 +176,4 @@ function setupScrollEffects() {
         scrollIndicator.style.opacity = '1';
     }
     });
-}
-
-function createFloatingParticles() {
-    const container = document.querySelector('.floating-elements');
-    
-    for (let i = 0; i < 20; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'floating-particle';
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.animationDelay = Math.random() * 20 + 's';
-    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-    container.appendChild(particle);
-    }
 }

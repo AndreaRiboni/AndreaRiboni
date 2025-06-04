@@ -1,0 +1,90 @@
+/* -------- Letter scroll styles -------- */
+#letter-scroll-container {
+    display: flex; /* Aligns letter-slots in a row */
+    align-items: flex-end; /* Align slots along their bottom edge */
+}
+
+.letter-slot {
+    display: inline-block;
+    position: relative;
+    /* Adjust width based on typical character width for your font and size */
+    /* For 'Inter' at 1.5rem, ~0.6em to 0.7em might be good for average char */
+    width: 0.65em;
+    height: 1em; /* Full height of the line */
+    overflow: hidden;
+    margin: 0 0.03em; /* Minimal spacing between letter slots */
+    /* border: 1px solid #333; */ /* For debugging slot bounds */
+}
+
+.letter-inner-mover {
+    position: absolute;
+    will-change: transform;
+    /* Default state, will be overridden by setup classes */
+    display: flex;
+    width: 200%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.letter-token {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Default state for horizontal */
+    width: 50%;
+    height: 100%;
+}
+
+/* --- Setup classes for initial state before animation --- */
+/* Horizontal setups */
+.setup-scroll-horizontal { display: flex; width: 200%; height: 100%; top: 0; }
+.setup-scroll-horizontal .letter-token { width: 50%; height: 100%; }
+.setup-scroll-right { left: -100%; /* [Clone][MainChar] -> MainChar visible */ }
+.setup-scroll-left { left: 0;    /* [MainChar][Clone] -> MainChar visible */ }
+
+/* Vertical setups */
+.setup-scroll-vertical { display: block; width: 100%; height: 200%; left: 0; }
+.setup-scroll-vertical .letter-token { width: 100%; height: 50%; }
+.setup-scroll-down { top: -100%; /* [Clone][MainChar] -> MainChar visible */ }
+.setup-scroll-up { top: 0;     /* [MainChar][Clone] -> MainChar visible */ }
+
+
+/* Corrected Keyframes in your <style> block */
+@keyframes keyframe-scroll-right { /* Ink moves RIGHT */
+  from { transform: translateX(0); }
+  to   { transform: translateX(50%); } /* Mover is 200% slot width, so 50% of its own width = 100% slot width */
+}
+
+@keyframes keyframe-scroll-left { /* Ink moves LEFT */
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes keyframe-scroll-down { /* Ink moves DOWN */
+  from { transform: translateY(0); }
+  to   { transform: translateY(50%); } /* Mover is 200% slot height */
+}
+
+@keyframes keyframe-scroll-up { /* Ink moves UP */
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
+/* It's also good to add animation-fill-mode to .animate-scroll */
+.animate-scroll {
+  animation-duration: 0.6s; /* Or your chosen duration */
+  animation-timing-function: linear;
+  animation-fill-mode: forwards; /* Ensures 100% keyframe state persists until cleanup */
+}
+.do-scroll-up { animation-name: keyframe-scroll-up; }
+.do-scroll-right { animation-name: keyframe-scroll-right; }
+.do-scroll-left  { animation-name: keyframe-scroll-left;  }
+.do-scroll-down  { animation-name: keyframe-scroll-down;  }
+
+
+/* Pause when hovering the brand block */
+.brand:hover .letter-inner-mover.animate-scroll {
+    animation-play-state: paused;
+}
