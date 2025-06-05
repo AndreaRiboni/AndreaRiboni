@@ -381,6 +381,56 @@ section:hover {
     transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
 }
 
+/* Mobile viewport fixes */
+html {
+  /* Prevent zoom on iOS */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  /* Prevent overscroll bounce */
+  overscroll-behavior: none;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+}
+
+canvas {
+  /* Ensure canvas doesn't resize with address bar changes */
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  /* Use vh units that ignore dynamic viewport changes */
+  height: 100svh !important; /* Static viewport height - newer browsers */
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Fallback for older browsers that don't support svh */
+@supports not (height: 100svh) {
+  canvas {
+    height: 100vh !important;
+  }
+}
+
+/* Additional mobile-specific fixes */
+@media screen and (max-width: 768px) {
+  canvas {
+    /* Force GPU acceleration on mobile */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+  }
+}
+
+/* Prevent address bar resizing issues */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  canvas {
+    height: 100vh !important;
+  }
+}
+
 /* Desktop hover expansion */
 @media (hover: hover) and (pointer: fine) {
     .dynamic-island:hover {

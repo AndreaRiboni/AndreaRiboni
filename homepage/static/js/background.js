@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 let camera, scene, renderer, blob, clock, mouse, targetRotation;
 let colorPhase = 0;
+let isResizing = false;
+let resizeTimeout;
 
 init();
 animate();
@@ -16,19 +18,21 @@ function init() {
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x0a0a23, 8, 20);
 
-    // Camera
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // Camera with fixed aspect ratio calculation
+    const initialWidth = window.innerWidth;
+    const initialHeight = window.innerHeight;
+    camera = new THREE.PerspectiveCamera(75, initialWidth / initialHeight, 0.1, 1000);
     camera.position.set(0, 0, 6);
 
     // Renderer
     renderer = new THREE.WebGLRenderer({ 
-        antialias: false, // Disabled for better performance
+        antialias: false,
         alpha: true,
         powerPreference: "high-performance",
-        stencil: false, // Disable stencil buffer
+        stencil: false,
         depth: true
     });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(initialWidth, initialHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -61,16 +65,16 @@ function init() {
     const geometry = new THREE.IcosahedronGeometry(2, 2);
     const material = new THREE.MeshPhysicalMaterial({
        color: 0x66ccff,
-        roughness: 0.05, // Smoother for better reflections
+        roughness: 0.05,
         metalness: 0.1,
-        clearcoat: 1.0, // Maximum clearcoat for glass-like effect
+        clearcoat: 1.0,
         clearcoatRoughness: 0.1,
-        transmission: 0.2, // More transparency
+        transmission: 0.2,
         transparent: true,
         opacity: 0.85,
-        ior: 1.4, // Index of refraction for realistic glass effect
-        thickness: 0.5, // For volume rendering
-        envMapIntensity: 1.5, // Stronger environment reflections
+        ior: 1.4,
+        thickness: 0.5,
+        envMapIntensity: 1.5,
     });
 
     blob = new THREE.Mesh(geometry, material);
@@ -81,15 +85,52 @@ function init() {
     // Store original positions
     blob.geometry.userData.originalPositions = geometry.attributes.position.array.slice();
 
-    // Event listeners
-    window.addEventListener('resize', onWindowResize, false);
+    // Improved event listeners with debouncing
+    window.addEventListener('resize', handleResize, false);
+    window.addEventListener('orientationchange', handleOrientationChange, false);
     window.addEventListener('scroll', onScroll, { passive: true });
+    
+    // Prevent resize on mobile scroll
+    let lastHeight = window.innerHeight;
+    window.addEventListener('resize', () => {
+        // Only resize if height change is significant (not just address bar)
+        const heightDiff = Math.abs(window.innerHeight - lastHeight);
+        if (heightDiff > 100 || window.innerWidth !== initialWidth) {
+            lastHeight = window.innerHeight;
+            onWindowResize();
+        }
+    }, false);
+}
+
+function handleResize() {
+    if (isResizing) return;
+    
+    isResizing = true;
+    clearTimeout(resizeTimeout);
+    
+    resizeTimeout = setTimeout(() => {
+        onWindowResize();
+        isResizing = false;
+    }, 150); // Debounce resize events
+}
+
+function handleOrientationChange() {
+    // Handle orientation changes specifically
+    setTimeout(() => {
+        onWindowResize();
+    }, 500); // Delay to ensure viewport has stabilized
 }
 
 function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    // Only update if there's a significant change
+    if (Math.abs(camera.aspect - (width / height)) > 0.01) {
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+    }
 }
 
 function onScroll() {
@@ -97,7 +138,10 @@ function onScroll() {
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const scrollPercent = scrollTop / docHeight;
     
-    document.getElementById('progressFill').style.width = (scrollPercent * 100) + '%';
+    const progressFill = document.getElementById('progressFill');
+    if (progressFill) {
+        progressFill.style.width = (scrollPercent * 100) + '%';
+    }
 }
 
 function animateBlob() {
@@ -150,13 +194,13 @@ function animate() {
     updateBlobColor();
 
     if (blob) {
-    // INSTANT rotation based on scroll only (no mouse, no smoothing)
-    const scrollY = window.pageYOffset;
-    blob.rotation.x = -scrollY * 0.0008;
-    blob.rotation.y = scrollY * 0.0005;
-    
-    // Keep blob centered (no floating animation)
-    blob.position.set(0, 0, 0);
+        // INSTANT rotation based on scroll only (no mouse, no smoothing)
+        const scrollY = window.pageYOffset;
+        blob.rotation.x = -scrollY * 0.0008;
+        blob.rotation.y = scrollY * 0.0005;
+        
+        // Keep blob centered (no floating animation)
+        blob.position.set(0, 0, 0);
     }
 
     // No camera sway (keep camera static for true center positioning)
@@ -169,11 +213,13 @@ function setupScrollEffects() {
     const scrollIndicator = document.querySelector('.scroll-indicator');
     
     window.addEventListener('scroll', () => {
-    const scrollY = window.pageYOffset;
-    if (scrollY > 100) {
-        scrollIndicator.style.opacity = '0';
-    } else {
-        scrollIndicator.style.opacity = '1';
-    }
+        const scrollY = window.pageYOffset;
+        if (scrollIndicator) {
+            if (scrollY > 100) {
+                scrollIndicator.style.opacity = '0';
+            } else {
+                scrollIndicator.style.opacity = '1';
+            }
+        }
     });
 }

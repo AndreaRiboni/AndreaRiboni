@@ -19,6 +19,7 @@
       }
     }
   </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 </head>
 
@@ -46,8 +47,8 @@
   <section id="home" class="hero-container flex items-center justify-center relative">
 
     <div class="text-center z-10 px-6 max-w-4xl mx-auto">
-      <h1 class="text-6xl md:text-8xl font-black mb-6 leading-tight section-title" id="letter-scroll-container">
-        HERE'S
+      <h1 class="text-6xl md:text-6xl font-black mb-6 leading-tight section-title" id="letter-scroll-container">
+        HERE IS
       </h1>
       
       <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com" id="signature" class="signature-svg mx-auto" viewBox="30 25 1010 350">
@@ -126,54 +127,98 @@
     </div>
   </section>
 
+  <section id="projects" class="relative py-20">
+    <div class="relative max-w-7xl mx-auto px-6">
+      <h2
+        class="text-center text-white font-extrabold
+              text-3xl sm:text-4xl md:text-6xl tracking-tight
+              whitespace-normal break-words">
+        FEATURED WORKS
+      </h2>
 
-  <section id="projects" class="py-20 relative">
-    <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-5xl font-black text-center text-white mb-16 section-title">Featured Works</h2>
-      <div class="space-y-16">
-        <div class="flex flex-col lg:flex-row items-center gap-12">
-          <div class="lg:w-1/2 space-y-6">
-            <h3 class="text-4xl font-bold text-white">ACM RecSys Challenge 2023</h3>
-            <p class="text-xl text-white/80 leading-relaxed">My team Gabibboost won the academic track.<br>The goal was to predict click probabilities for online advertisements.</p>
-            <a 
-              href="https://github.com/AndreaRiboni/recsys-challenge-2023-sharechat" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="btn-gradient px-6 py-3 rounded-full text-white font-semibold hover-lift inline-block text-center"
-            >
-              Explore Project →
+      <div class="mt-20 space-y-32">
+
+        <!-- ========== Project 1 ========== -->
+        <article class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 group">
+          <!-- Textual side -->
+          <div class="space-y-6">
+            <h3 class="flex flex-wrap items-center gap-3
+                        text-3xl sm:text-4xl lg:text-5xl font-bold text-white
+                        whitespace-normal break-words">
+              ACM RecSys Challenge 2023
+              <span
+                  class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full
+                        bg-emerald-500/20 text-emerald-300 backdrop-blur
+                        lg:whitespace-nowrap">
+                  🏆 Winner
+                </span>
+            </h3>
+
+            <p class="text-lg leading-relaxed text-white/80">
+              Part of <strong>Team Gabibboost</strong>: <em>1st place</em> in the academic track by predicting ad click‑through probabilities with GBMs and custom post‑processing. The work was later <a href="https://recsys.acm.org/" target="_blank" rel="noopener noreferrer" class="underline decoration-dotted text-emerald-300 hover:text-emerald-200">presented at ACM RecSys 2023 in Singapore</a> 🇸🇬.
+            </p>
+
+            <ul class="space-y-1 text-white/70">
+              <li>💡 Heavy feature engineering despite anonymised fields</li>
+              <li>⚙️ Trained on Kaggle and AWS</li>
+              <li>📄 <a href="https://dl.acm.org/doi/10.1145/3626221.3627288" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-300 underline decoration-dotted">Read the technical report</a></li>
+              <li>🔗 <a href="https://recsys.acm.org/recsys23/challenge/" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-300 underline decoration-dotted">Challenge details</a></li>
+            </ul>
+
+            <a
+              href="https://github.com/AndreaRiboni/recsys-challenge-2023-sharechat"
+              target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 btn-gradient px-6 py-3 rounded-full font-semibold hover:scale-[1.03] transition-transform">
+              More info
             </a>
           </div>
-          <div class="lg:w-1/2">
-            <div class="project-card rounded-3xl p-8 h-64 flex items-center justify-center">
-              <div class="text-white/60 text-6xl font-bold">RECSYS</div>
-            </div>
-          </div>
-        </div>
 
-        <div class="flex flex-col lg:flex-row-reverse items-center gap-12">
-          <div class="lg:w-1/2 space-y-6">
-            <h3 class="text-4xl font-bold text-white">Chat Wrapped</h3>
-            <p class="text-xl text-white/80 leading-relaxed">A chat analysis notebook.<br>Export your Telegram/Whatsapp chats and have fun creating insightful reports.</p>
-            <a 
-              href="https://github.com/AndreaRiboni/Telegram-Whatsapp-Wrapped" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="btn-gradient px-6 py-3 rounded-full text-white font-semibold hover-lift inline-block text-center"
-            >
-              Dive Deeper →
+          <!-- Visual side -->
+          <figure class="relative w-full aspect-[16/9] rounded-3xl overflow-hidden
+         shadow-xl ring-1 ring-white/10">
+            <img src="/static/img/singapore.webp" alt="Singapore skyline with Marina Bay Sands – venue city for ACM RecSys 2023" class="absolute inset-0 w-full h-full object-cover
+              transition-transform duration-700 group-hover:scale-105">
+          </figure>
+        </article>
+
+        <!-- ========== Project 2 ========== -->
+        <article class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 group lg:[&>*:first-child]:order-2">
+          <!-- Textual side -->
+          <div class="space-y-6">
+            <h3 class="flex flex-wrap items-center gap-3
+                            text-3xl sm:text-4xl lg:text-5xl font-bold text-white
+                            whitespace-normal break-words">
+              Chat Wrapped</h3>
+
+            <p class="text-lg leading-relaxed text-white/80">
+              Turn raw Telegram or WhatsApp exports into a Spotify‑style <em>year‑in‑chat</em> report filled with charts, graphs and conversation highlights.
+            </p>
+
+            <ul class="space-y-1 text-white/70">
+              <li>📈 Featured on <a href="http://ilsoftware.it/wa-wrapped-crea-statistiche-sulluso-di-whatsapp-ce-da-fidarsi/" target="_blank" rel="noopener noreferrer" class="hover:text-indigo-300 underline decoration-dotted">ilsoftware.it</a></li>
+            </ul>
+
+            <a
+              href="https://github.com/AndreaRiboni/Telegram-Whatsapp-Wrapped"
+              target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 btn-gradient px-6 py-3 rounded-full font-semibold hover:scale-[1.03] transition-transform">
+              Analyze your chats
             </a>
           </div>
-          <div class="lg:w-1/2">
-            <div class="project-card rounded-3xl p-8 h-64 flex items-center justify-center">
-              <div class="text-white/60 text-6xl font-bold">DATA</div>
-            </div>
-          </div>
-        </div>
+
+          <!-- Visual side -->
+          <figure class="relative w-full aspect-[16/9] rounded-3xl overflow-hidden
+         shadow-xl ring-1 ring-white/10">
+            <img src="/static/img/chat-wrapped.webp" alt="Laptop screen showing colourful analytics dashboard – evocative of Chat Wrapped output" class="absolute inset-0 w-full h-full object-cover
+              transition-transform duration-700 group-hover:scale-105">
+          </figure>
+        </article>
 
       </div>
     </div>
   </section>
+
+
 
   <section id="contact" class="py-20 relative">
     <div class="max-w-4xl mx-auto px-6 text-center">
@@ -185,29 +230,29 @@
         
         <!-- LinkedIn Button -->
         <a href="https://linkedin.com/in/andrea-riboni" target="_blank" 
-           class="btn-gradient px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition">
-          <i class="fab fa-linkedin fa-lg"></i>
+           class="w-48 px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition flex items-center justify-center whitespace-nowrap">
+          <i class="fab fa-linkedin fa-lg mr-2"></i>
           LinkedIn
         </a>
   
         <!-- GitHub Button -->
         <a href="https://github.com/AndreaRiboni" target="_blank" 
-           class="btn-gradient px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition">
-          <i class="fab fa-github fa-lg"></i>
+           class="w-48 px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition flex items-center justify-center whitespace-nowrap">
+          <i class="fab fa-github fa-lg mr-2"></i>
           GitHub
         </a>
   
         <!-- Telegram Button -->
         <a href="https://t.me/datandre" target="_blank" 
-           class="btn-gradient px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition">
-          <i class="fab fa-telegram fa-lg"></i>
+           class="w-48 px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition flex items-center justify-center whitespace-nowrap">
+          <i class="fab fa-telegram fa-lg mr-2"></i>
           Telegram
         </a>
   
         <!-- Discord Copy Button -->
         <button onclick="copyDiscord()" 
-           class="btn-gradient px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition">
-          <i class="fab fa-discord fa-lg"></i>
+           class="w-48 px-8 py-4 rounded-full text-white font-bold text-xl border border-white/20 hover:bg-white/10 transition flex items-center justify-center whitespace-nowrap">
+          <i class="fab fa-discord fa-lg mr-2"></i>
           Discord
         </button>
   

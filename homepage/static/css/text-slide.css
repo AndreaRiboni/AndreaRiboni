@@ -37,6 +37,15 @@
     height: 100%;
 }
 
+
+/* -------- Letter scroll styles -------- */
+#letter-scroll-container {
+    display: flex; /* Aligns letter-slots in a row */
+    align-items: flex-end; /* Align slots along their bottom edge */
+    justify-content: center; /* Center the letters horizontally */
+    width: 100%; /* Take full width of parent container */
+}
+
 /* --- Setup classes for initial state before animation --- */
 /* Horizontal setups */
 .setup-scroll-horizontal { display: flex; width: 200%; height: 100%; top: 0; }
