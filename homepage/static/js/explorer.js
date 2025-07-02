@@ -209,4 +209,55 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   requestAnimationFrame(drawBlobs);
+
+  // Sonar animation over Milan
+  const sonarCanvas = document.getElementById("sonar-canvas");
+  const sonarCtx = sonarCanvas.getContext("2d");
+  
+  function resizeSonarCanvas() {
+    sonarCanvas.width = sonarCanvas.offsetWidth;
+    sonarCanvas.height = sonarCanvas.offsetHeight;
+  }
+  
+  window.addEventListener("resize", resizeSonarCanvas);
+  resizeSonarCanvas();
+  
+  let sonarStart = performance.now();
+  const SONAR_PERIOD = 4000; // ms
+  const MAX_RADIUS = 650;
+  
+  function drawSonar(timestamp) {
+    const t = timestamp - sonarStart;
+    const W = sonarCanvas.width;
+    const H = sonarCanvas.height;
+  
+    sonarCtx.clearRect(0, 0, W, H);
+  
+    const { x, y } = map.latLngToContainerPoint([45.4781, 9.2273]);
+  
+    const cycles = 3;
+    for (let i = 0; i < cycles; i++) {
+      const localT = (t + i * (SONAR_PERIOD / cycles)) % SONAR_PERIOD;
+      let progress = localT / SONAR_PERIOD;
+  
+      // Ensure progress stays in [0, 1]
+      progress = Math.max(0, Math.min(progress, 1));
+      const radius = Math.max(0, progress * MAX_RADIUS);
+      const alpha = 1 - progress;
+  
+      if (radius > 1e-2) {  // skip degenerate arcs
+        sonarCtx.beginPath();
+        sonarCtx.arc(x, y, radius, 0, Math.PI * 2);
+        sonarCtx.strokeStyle = `rgba(94, 234, 212, ${alpha * 0.4})`;
+        sonarCtx.lineWidth = 2;
+        sonarCtx.stroke();
+      }
+    }
+  
+    requestAnimationFrame(drawSonar);
+  }
+  
+  
+  requestAnimationFrame(drawSonar);
+
 });
