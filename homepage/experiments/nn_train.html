@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TensorFlow.js Icon Classifier</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/4.10.0/tf.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .upload-section {
+            border: 2px dashed #ccc;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+        .upload-section:hover {
+            border-color: #007bff;
+        }
+        .upload-section.dragover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .upload-btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .upload-btn:hover {
+            background: #0056b3;
+        }
+        .config-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .config-row {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .config-row label {
+            width: 200px;
+            font-weight: bold;
+        }
+        .config-row input, .config-row select {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .train-btn {
+            background: #28a745;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            margin: 20px 0;
+        }
+        .train-btn:hover {
+            background: #218838;
+        }
+        .train-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .progress-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #007bff;
+            transition: width 0.3s;
+        }
+        .log-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #007bff;
+            background: white;
+        }
+        .data-info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .save-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+        .save-btn {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .save-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 TensorFlow.js Icon Classifier</h1>
+        
+        <div class="upload-section" id="uploadSection">
+            <p>📁 Upload your icon dataset (PNG files)</p>
+            <p>Expected file naming: book_*, envelope_*, home_*, person_*, suitcase_*, x_*</p>
+            <input type="file" id="fileInput" multiple accept=".png" webkitdirectory>
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                Select Dataset Folder
+            </button>
+        </div>
+
+        <div class="data-info" id="dataInfo" style="display: none;">
+            <h3>📊 Dataset Information</h3>
+            <div id="dataStats"></div>
+        </div>
+
+        <div class="config-section">
+            <h3>⚙️ Training Configuration</h3>
+            <div class="config-row">
+                <label>Image Size:</label>
+                <select id="imageSize">
+                    <option value="32" selected>32x32</option>
+                    <option value="64">64x64</option>
+                    <option value="128">128x128</option>
+                    <option value="224">224x224</option>
+                </select>
+            </div>
+            <div class="config-row">
+                <label>Batch Size:</label>
+                <input type="number" id="batchSize" value="32" min="1" max="128">
+            </div>
+            <div class="config-row">
+                <label>K-Folds:</label>
+                <input type="number" id="kFolds" value="5" min="2" max="10">
+            </div>
+            <div class="config-row">
+                <label>Max Epochs:</label>
+                <input type="number" id="maxEpochs" value="100" min="1" max="200">
+            </div>
+            <div class="config-row">
+                <label>Early Stopping Patience:</label>
+                <input type="number" id="patience" value="8" min="1" max="20">
+            </div>
+            <div class="config-row">
+                <label>Learning Rate:</label>
+                <input type="number" id="learningRate" value="0.001" step="0.0001" min="0.0001" max="0.1">
+            </div>
+        </div>
+
+        <button class="train-btn" id="trainBtn" onclick="startTraining()">
+            🚀 Start K-Fold Training
+        </button>
+
+        <div class="progress-section" id="progressSection">
+            <h3>📈 Training Progress</h3>
+            <div>Current Fold: <span id="currentFold">-</span></div>
+            <div>Current Epoch: <span id="currentEpoch">-</span></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div>Loss: <span id="currentLoss">-</span> | Accuracy: <span id="currentAccuracy">-</span></div>
+        </div>
+
+        <div class="log-section" id="logSection">
+            <h3>📝 Training Log</h3>
+            <div id="logEntries"></div>
+        </div>
+
+        <div class="save-section" id="saveSection">
+            <h3>💾 Save Model</h3>
+            <p>Training completed! You can now save the best model.</p>
+            <button class="save-btn" onclick="saveModel()">Download Model</button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let dataset = [];
+        let classes = ["book", "envelope", "home", "person", "suitcase", "x"];
+        let bestModel = null;
+        let bestAccuracy = 0;
+        let foldResults = [];
+
+        // Drag and drop handling
+        const uploadSection = document.getElementById('uploadSection');
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.classList.remove('dragover');
+        });
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        // File input handler
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // Handle uploaded files
+        async function handleFiles(files) {
+            const pngFiles = Array.from(files).filter(f => f.name.toLowerCase().endsWith('.png'));
+            
+            if (pngFiles.length === 0) {
+                alert('No PNG files found!');
+                return;
+            }
+
+            log('📁 Processing files...');
+            dataset = [];
+            
+            for (const file of pngFiles) {
+                const label = getLabelFromFilename(file.name);
+                if (label) {
+                    const imageData = await loadImageFromFile(file);
+                    if (imageData) {
+                        dataset.push({
+                            image: imageData,
+                            label: label,
+                            filename: file.name
+                        });
+                    }
+                }
+            }
+
+            if (dataset.length === 0) {
+                alert('No valid labeled images found! Make sure filenames contain class names.');
+                return;
+            }
+
+            displayDatasetInfo();
+            document.getElementById('trainBtn').disabled = false;
+        }
+
+        // Extract label from filename
+        function getLabelFromFilename(filename) {
+            const lower = filename.toLowerCase();
+            for (const cls of classes) {
+                if (lower.includes(cls)) {
+                    return cls;
+                }
+            }
+            return null;
+        }
+
+        // Load image from file
+        async function loadImageFromFile(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const size = parseInt(document.getElementById('imageSize').value);
+                        
+                        canvas.width = size;
+                        canvas.height = size;
+                        
+                        // Draw image and convert to RGB
+                        ctx.drawImage(img, 0, 0, size, size);
+                        const imageData = ctx.getImageData(0, 0, size, size);
+                        const data = imageData.data;
+                        
+                        // Convert to tensor (normalize to [0,1])
+                        const tensor = tf.tensor3d(Array.from(data), [size, size, 4])
+                            .slice([0, 0, 0], [size, size, 3]) // Remove alpha channel
+                            .div(255.0);
+                        
+                        resolve(tensor);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Display dataset information
+        function displayDatasetInfo() {
+            const classCount = {};
+            classes.forEach(cls => classCount[cls] = 0);
+            
+            dataset.forEach(item => {
+                classCount[item.label]++;
+            });
+
+            const statsHtml = `
+                <p><strong>Total Images:</strong> ${dataset.length}</p>
+                <p><strong>Classes:</strong> ${Object.keys(classCount).join(', ')}</p>
+                <p><strong>Distribution:</strong></p>
+                <ul>
+                    ${Object.entries(classCount).map(([cls, count]) => 
+                        `<li>${cls}: ${count} images</li>`
+                    ).join('')}
+                </ul>
+            `;
+            
+            document.getElementById('dataStats').innerHTML = statsHtml;
+            document.getElementById('dataInfo').style.display = 'block';
+        }
+
+        // Create model
+        function createModel() {
+            const imageSize = parseInt(document.getElementById('imageSize').value);
+            const numClasses = classes.length;
+            
+            const model = tf.sequential({
+                layers: [
+                    // Simple CNN architecture matching the specified structure
+                    tf.layers.conv2d({
+                        inputShape: [imageSize, imageSize, 3],
+                        filters: 32,
+                        kernelSize: 3,
+                        activation: 'relu'
+                    }),
+                    tf.layers.maxPooling2d({poolSize: 2}),
+                    
+                    tf.layers.conv2d({
+                        filters: 64,
+                        kernelSize: 3,
+                        activation: 'relu'
+                    }),
+                    tf.layers.maxPooling2d({poolSize: 2}),
+                    
+                    tf.layers.flatten(),
+                    tf.layers.dropout({rate: 0.3}),
+                    tf.layers.dense({units: 64, activation: 'relu'}),
+                    tf.layers.dense({units: numClasses, activation: 'softmax'})
+                ]
+            });
+
+            const learningRate = parseFloat(document.getElementById('learningRate').value);
+            model.compile({
+                optimizer: tf.train.adam(learningRate),
+                loss: 'categoricalCrossentropy',
+                metrics: ['accuracy']
+            });
+
+            return model;
+        }
+
+        // K-Fold cross validation
+        function createKFolds(data, k) {
+            const shuffled = [...data].sort(() => Math.random() - 0.5);
+            const folds = [];
+            const foldSize = Math.floor(shuffled.length / k);
+            
+            for (let i = 0; i < k; i++) {
+                const start = i * foldSize;
+                const end = i === k - 1 ? shuffled.length : start + foldSize;
+                folds.push(shuffled.slice(start, end));
+            }
+            
+            return folds;
+        }
+
+        // Prepare data for training
+        function prepareData(data) {
+            const images = tf.stack(data.map(item => item.image));
+            const labels = tf.oneHot(
+                tf.tensor1d(data.map(item => classes.indexOf(item.label)), 'int32'),
+                classes.length
+            );
+            return {images, labels};
+        }
+
+        // Start training
+        async function startTraining() {
+            if (dataset.length === 0) {
+                alert('Please upload a dataset first!');
+                return;
+            }
+
+            document.getElementById('trainBtn').disabled = true;
+            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('saveSection').style.display = 'none';
+            
+            const kFolds = parseInt(document.getElementById('kFolds').value);
+            const maxEpochs = parseInt(document.getElementById('maxEpochs').value);
+            
+            log('🚀 Starting K-Fold Cross Validation...');
+            
+            const folds = createKFolds(dataset, kFolds);
+            foldResults = [];
+            bestAccuracy = 0;
+            
+            for (let fold = 0; fold < kFolds; fold++) {
+                log(`📋 Starting Fold ${fold + 1}/${kFolds}`);
+                document.getElementById('currentFold').textContent = `${fold + 1}/${kFolds}`;
+                
+                // Prepare train/validation split
+                const valData = folds[fold];
+                const trainData = folds.filter((_, i) => i !== fold).flat();
+                
+                const trainSet = prepareData(trainData);
+                const valSet = prepareData(valData);
+                
+                // Create and train model with early stopping
+                const model = createModel();
+                
+                // Early stopping implementation
+                let bestValAccuracy = 0;
+                let patience = parseInt(document.getElementById('patience').value);
+                let patienceCounter = 0;
+                let bestWeights = null;
+                
+                const history = await model.fit(trainSet.images, trainSet.labels, {
+                    epochs: maxEpochs,
+                    batchSize: parseInt(document.getElementById('batchSize').value),
+                    validationData: [valSet.images, valSet.labels],
+                    callbacks: {
+                        onEpochEnd: async (epoch, logs) => {
+                            document.getElementById('currentEpoch').textContent = `${epoch + 1}/${maxEpochs}`;
+                            document.getElementById('currentLoss').textContent = logs.loss.toFixed(4);
+                            document.getElementById('currentAccuracy').textContent = logs.acc.toFixed(4);
+                            
+                            const progress = ((epoch + 1) / maxEpochs) * 100;
+                            document.getElementById('progressFill').style.width = `${progress}%`;
+                            
+                            // Early stopping logic
+                            const currentValAccuracy = logs.val_acc;
+                            if (currentValAccuracy > bestValAccuracy) {
+                                bestValAccuracy = currentValAccuracy;
+                                patienceCounter = 0;
+                                // Save best weights
+                                bestWeights = await model.getWeights();
+                                log(`💾 New best validation accuracy: ${currentValAccuracy.toFixed(4)} (epoch ${epoch + 1})`);
+                            } else {
+                                patienceCounter++;
+                                if (patienceCounter >= patience) {
+                                    log(`⏹️ Early stopping triggered after ${epoch + 1} epochs (patience: ${patience})`);
+                                    model.stopTraining = true;
+                                    return;
+                                }
+                            }
+                            
+                            log(`📈 Epoch ${epoch + 1}: loss=${logs.loss.toFixed(4)}, acc=${logs.acc.toFixed(4)}, val_acc=${currentValAccuracy.toFixed(4)}, patience=${patienceCounter}/${patience}`);
+                        }
+                    }
+                });
+                
+                // Restore best weights if early stopping occurred
+                if (bestWeights && patienceCounter >= patience) {
+                    await model.setWeights(bestWeights);
+                    log(`🔄 Restored best weights from epoch with validation accuracy: ${bestValAccuracy.toFixed(4)}`);
+                }
+                
+                // Evaluate on validation set
+                const evaluation = model.evaluate(valSet.images, valSet.labels);
+                const valAccuracy = await evaluation[1].data();
+                const accuracy = valAccuracy[0];
+                
+                foldResults.push(accuracy);
+                log(`✅ Fold ${fold + 1} completed - Accuracy: ${accuracy.toFixed(4)}`);
+                
+                // Keep best model
+                if (accuracy > bestAccuracy) {
+                    bestAccuracy = accuracy;
+                    if (bestModel) bestModel.dispose();
+                    bestModel = model;
+                } else {
+                    model.dispose();
+                }
+                
+                // Clean up tensors
+                trainSet.images.dispose();
+                trainSet.labels.dispose();
+                valSet.images.dispose();
+                valSet.labels.dispose();
+            }
+            
+            // Show final results
+            const meanAccuracy = foldResults.reduce((a, b) => a + b, 0) / foldResults.length;
+            const stdAccuracy = Math.sqrt(foldResults.reduce((a, b) => a + Math.pow(b - meanAccuracy, 2), 0) / foldResults.length);
+            
+            log(`🎉 Training completed!`);
+            log(`📊 Cross-validation results:`);
+            log(`   Mean accuracy: ${meanAccuracy.toFixed(4)} ± ${stdAccuracy.toFixed(4)}`);
+            log(`   Best accuracy: ${bestAccuracy.toFixed(4)}`);
+            log(`   Fold scores: ${foldResults.map(s => s.toFixed(4)).join(', ')}`);
+            
+            document.getElementById('trainBtn').disabled = false;
+            document.getElementById('saveSection').style.display = 'block';
+        }
+
+        // Save model
+        async function saveModel() {
+            if (!bestModel) {
+                alert('No trained model available!');
+                return;
+            }
+            
+            log('💾 Saving model...');
+            await bestModel.save('downloads://tfjs-icon-classifier');
+            log('✅ Model saved to downloads!');
+        }
+
+        // Logging function
+        function log(message) {
+            const logEntries = document.getElementById('logEntries');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            logEntries.appendChild(entry);
+            logEntries.scrollTop = logEntries.scrollHeight;
+            console.log(message);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🎯 TensorFlow.js Icon Classifier initialized');
+            log(`   TensorFlow.js version: ${tf.version.tfjs}`);
+            log('   Please upload your dataset to begin training');
+        });
+    </script>
+</body>
+</html>

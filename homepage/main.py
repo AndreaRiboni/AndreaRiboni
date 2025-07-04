@@ -27,36 +27,14 @@ templates = Jinja2Templates(directory=static_dir)
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-# Route for '/terminal'
 @app.get("/terminal", response_class=HTMLResponse)
-async def read_terminal(request: Request):
+async def terminal(request: Request):
     return templates.TemplateResponse("terminal.html", {"request": request})
 
-# Route for '/terminal'
-@app.get("/3d", response_class=HTMLResponse)
-async def read_terminal(request: Request):
-    return templates.TemplateResponse("3dmodel.html", {"request": request})
-
-
 @app.get("/explorer", response_class=HTMLResponse)
-async def read_terminal(request: Request):
+async def explorer(request: Request):
     return templates.TemplateResponse("map_index.html", {"request": request})
 
-@app.get("/tiles/{z}/{x}/{y}.png")
-async def get_tile(z: int, x: int, y: int):
-    """
-    Return one PNG tile from static/map.mbtiles.
-    Caches for a week (604 800 s).
-    """
-    try:
-        raw = mb.read_tile(z=z, x=x, y=y)
-
-        return Response(
-            content=raw,
-            media_type="image/png",
-            headers={"Cache-Control": "public, max-age=604800, immutable"},
-        )
-
-    except Exception:
-        # (y is XYZ, so out-of-range or missing → 404)
-        raise HTTPException(status_code=404, detail="Tile not found")
+@app.get("/draw", response_class=HTMLResponse)
+async def artist(request: Request):
+    return templates.TemplateResponse("draw_inference.html", {"request": request})
