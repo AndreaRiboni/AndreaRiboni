@@ -188,26 +188,7 @@ function navigateToSection(iconClass) {
         // Update current section
         currentSection = targetSection;
 
-        // Clear canvas after navigation
-        setTimeout(() => {
-            if (!hoveringCanvas) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                document.getElementById('prediction-result').textContent = 'Draw an icon to navigate';
-            } else {
-                // Retry after 200ms if still hovering
-                setTimeout(() => {
-                    if (!hoveringCanvas) {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        ctx.fillStyle = 'white';
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        document.getElementById('prediction-result').textContent = 'Draw an icon to navigate';
-                    }
-                }, 200);
-            }
-        }, 1000);
-
+        // Removed auto-delete feature: do not clear canvas after navigation
     }
 }
 
