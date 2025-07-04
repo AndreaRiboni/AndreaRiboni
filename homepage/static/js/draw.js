@@ -188,12 +188,6 @@ function navigateToSection(iconClass) {
         // Update current section
         currentSection = targetSection;
 
-        // Update nav indicator
-        document.getElementById('current-section').textContent = sectionNames[targetSection];
-
-        // Update nav status
-        document.getElementById('nav-status').textContent = `Navigated to ${sectionNames[targetSection]}`;
-
         // Clear canvas after navigation
         setTimeout(() => {
             if (!hoveringCanvas) {
