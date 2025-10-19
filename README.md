@@ -1,10 +1,10 @@
-## 👋 Hi, I'm Andrea
+## Andrea here
 
-I'm aiming to be full-stack — from **UX to ML**, from **LLMs to CFD**. 
+My learning curve never converged
 
 ---
 
-### 🏁 Currently I am...
+### 🏁 My Job
 
 **Machine Learning Software Engineer**  
 🏎️ *Scuderia Ferrari HP – Aerodynamics Dept.*  
@@ -16,20 +16,6 @@ I'm aiming to be full-stack — from **UX to ML**, from **LLMs to CFD**.
 **MSc in Computer Science**  
 EIT Digital Double Degree in Data Science  
 Politecnico di Milano & Aalto University (cum laude)
-
----
-
-### 💻 Main Tech Stack
-
-![Python](https://img.shields.io/badge/Python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Keras](https://img.shields.io/badge/Keras-D00000.svg?style=for-the-badge&logo=Keras&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)
-![C](https://img.shields.io/badge/C-00599C.svg?style=for-the-badge&logo=c&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 ---
 
