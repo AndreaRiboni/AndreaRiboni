@@ -6,6 +6,9 @@ My learning curve never converged
 
 ### 🏁 My Job
 
+**Machine Learning Software Engineer**
+Google, YouTube
+
 **Machine Learning Software Engineer**  
 🏎️ *Scuderia Ferrari HP – Aerodynamics Dept.*  
 
